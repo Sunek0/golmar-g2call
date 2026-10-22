@@ -1,0 +1,123 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Golmar G2Call+",
+        "description": "G2Call+ account and monitor label data. The local path requires the monitor to be awake (open Information in the app).",
+        "data": {
+          "account": "Account (email/phone)",
+          "account_password": "Account password",
+          "device_uid": "Device UID (12 characters)",
+          "device_password": "Device password (8 uppercase letters)",
+          "unlock_code": "Unlock code (local path)",
+          "host": "Monitor IP or host",
+          "port": "CGI port",
+          "scheme": "Scheme (https/http)",
+          "verify_tls": "Verify TLS certificate"
+        },
+        "data_description": {
+          "account_password": "Only its SHA-256 is stored, never the plaintext password.",
+          "device_uid": "Printed on the monitor label next to the password.",
+          "verify_tls": "The monitor uses a self-signed certificate; leave this off unless you replaced it.",
+          "host": "The IP may change if the monitor uses a randomized MAC; you can reconfigure it."
+        }
+      },
+      "doors": {
+        "title": "Doors",
+        "description": "Doors discovered with get.device.attachInfo (known defaults are used when the monitor is asleep). The Portal stays disabled by default.",
+        "data": {
+          "enable_principal": "Enable Main door (door 9, lock 1)",
+          "enable_portal": "Enable Portal (door 1, lock 1)"
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigure Golmar G2Call+",
+        "data": {
+          "account": "Account (email/phone)",
+          "account_password": "Account password",
+          "device_uid": "Device UID (12 characters)",
+          "device_password": "Device password (8 uppercase letters)",
+          "unlock_code": "Unlock code (local path)",
+          "host": "Monitor IP or host",
+          "port": "CGI port",
+          "scheme": "Scheme (https/http)",
+          "verify_tls": "Verify TLS certificate",
+          "enable_principal": "Enable Main door (door 9, lock 1)",
+          "enable_portal": "Enable Portal (door 1, lock 1)"
+        },
+        "data_description": {
+          "account_password": "Empty = keep the current one (only its SHA-256 is stored).",
+          "device_password": "The stored value is shown. Empty = keep the current one.",
+          "unlock_code": "The stored value is shown. Empty = keep the current one."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reauthenticate the monitor",
+        "description": "The monitor rejected the device password.",
+        "data": {
+          "device_password": "Device password (8 uppercase letters)"
+        }
+      },
+      "reauth_confirm_cloud": {
+        "title": "Reauthenticate the account",
+        "description": "The cloud session expired or was revoked.",
+        "data": {
+          "account_password": "Account password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not connect to the monitor. Open G2Call+ → device Information and try again.",
+      "invalid_auth": "Invalid account credentials.",
+      "invalid_device_auth": "Invalid device password.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This device is already configured.",
+      "reauth_successful": "Reauthentication successful.",
+      "reconfigure_successful": "Reconfiguration successful."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Golmar G2Call+ options",
+        "data": {
+          "enable_principal": "Enable Main door (door 9, lock 1)",
+          "enable_portal": "Enable Portal (door 1, lock 1)",
+          "unlock_code": "Unlock code (local path)",
+          "verify_tls": "Verify TLS certificate",
+          "device_password": "Device password (8 uppercase letters)"
+        },
+        "description": "Device {device_uid} at {host}. Unlock code: {code_status}. Device password: {device_status}. Leave sensitive fields empty to keep the current value.",
+        "data_description": {
+          "unlock_code": "The stored value is shown. Empty = keep the current one.",
+          "device_password": "The stored value is shown. Empty = keep the current one."
+        }
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "unlock_principal": {
+        "name": "Main door"
+      },
+      "unlock_portal": {
+        "name": "Portal"
+      }
+    },
+    "binary_sensor": {
+      "online": {
+        "name": "Connectivity"
+      }
+    },
+    "sensor": {
+      "model": {
+        "name": "Model"
+      },
+      "firmware": {
+        "name": "Firmware"
+      }
+    }
+  }
+}

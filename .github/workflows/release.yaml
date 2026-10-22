@@ -1,0 +1,63 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create the GitHub release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Verify the tag matches the manifest version
+        run: |
+          python - <<'EOF'
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          tag = os.environ["GITHUB_REF_NAME"].removeprefix("v")
+          components = sorted(
+              path for path in Path("custom_components").iterdir() if path.is_dir()
+          )
+          if len(components) != 1:
+              sys.exit(
+                  "expected exactly one integration under custom_components/, "
+                  f"found {len(components)}"
+              )
+          component = components[0]
+          version = json.loads(
+              (component / "manifest.json").read_text(encoding="utf-8")
+          )["version"]
+          if tag != version:
+              sys.exit(
+                  f"Tag {tag} does not match manifest version {version} "
+                  f"of {component}"
+              )
+          print(f"Tag {tag} matches manifest version of {component}")
+          EOF
+
+      - name: Create or update the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          prerelease=""
+          case "${GITHUB_REF_NAME}" in
+            *-*) prerelease="--prerelease" ;;
+          esac
+          if gh release view "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
+            gh release edit "${GITHUB_REF_NAME}" --title "${GITHUB_REF_NAME}" $prerelease
+          else
+            gh release create "${GITHUB_REF_NAME}" \
+              --title "${GITHUB_REF_NAME}" \
+              --generate-notes \
+              --verify-tag $prerelease
+          fi

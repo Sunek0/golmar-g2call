@@ -1,0 +1,21 @@
+{
+  "entity": {
+    "button": {
+      "unlock_principal": {"default": "mdi:door-open"},
+      "unlock_portal": {"default": "mdi:door"}
+    },
+    "binary_sensor": {
+      "online": {
+        "default": "mdi:lan-connect",
+        "state": {
+          "on": "mdi:lan-connect",
+          "off": "mdi:lan-disconnect"
+        }
+      }
+    },
+    "sensor": {
+      "model": {"default": "mdi:monitor"},
+      "firmware": {"default": "mdi:chip"}
+    }
+  }
+}

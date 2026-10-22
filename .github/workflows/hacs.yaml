@@ -1,0 +1,26 @@
+name: HACS
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: HACS validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Run HACS validation
+        uses: hacs/action@main
+        with:
+          category: integration
+          # Store-listing checks that need GitHub repository settings (description,
+          # topics) and README images. Custom repositories do not need them.
+          ignore: description topics images

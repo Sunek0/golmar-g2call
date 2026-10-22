@@ -1,0 +1,123 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Golmar G2Call+",
+        "description": "Cuenta de la app G2Call+ y datos de la etiqueta del monitor. La vía local requiere el monitor despierto (abrir Información en la app).",
+        "data": {
+          "account": "Cuenta (email/teléfono)",
+          "account_password": "Contraseña de la cuenta",
+          "device_uid": "UID del equipo (12 caracteres)",
+          "device_password": "Contraseña del equipo (8 mayúsculas)",
+          "unlock_code": "Código de apertura (vía local)",
+          "host": "IP o host del monitor",
+          "port": "Puerto CGI",
+          "scheme": "Esquema (https/http)",
+          "verify_tls": "Verificar certificado TLS"
+        },
+        "data_description": {
+          "account_password": "Solo se guarda su SHA-256, nunca la contraseña en claro.",
+          "device_uid": "Está en la etiqueta del monitor junto a la contraseña.",
+          "verify_tls": "El monitor usa un certificado autofirmado; déjalo desactivado salvo que lo hayas sustituido.",
+          "host": "La IP puede cambiar si el monitor usa MAC aleatoria; podrás reconfigurarla."
+        }
+      },
+      "doors": {
+        "title": "Puertas",
+        "description": "Puertas detectadas con get.device.attachInfo (si el monitor está dormido se usan las conocidas). El Portal queda deshabilitado por defecto.",
+        "data": {
+          "enable_principal": "Habilitar Puerta principal (door 9, lock 1)",
+          "enable_portal": "Habilitar Portal (door 1, lock 1)"
+        }
+      },
+      "reconfigure": {
+        "title": "Reconfigurar Golmar G2Call+",
+        "data": {
+          "account": "Cuenta (email/teléfono)",
+          "account_password": "Contraseña de la cuenta",
+          "device_uid": "UID del equipo (12 caracteres)",
+          "device_password": "Contraseña del equipo (8 mayúsculas)",
+          "unlock_code": "Código de apertura (vía local)",
+          "host": "IP o host del monitor",
+          "port": "Puerto CGI",
+          "scheme": "Esquema (https/http)",
+          "verify_tls": "Verificar certificado TLS",
+          "enable_principal": "Habilitar Puerta principal (door 9, lock 1)",
+          "enable_portal": "Habilitar Portal (door 1, lock 1)"
+        },
+        "data_description": {
+          "account_password": "Vacía = mantener la actual (solo se guarda su SHA-256).",
+          "device_password": "Se muestra el valor guardado. Vacía = mantener la actual.",
+          "unlock_code": "Se muestra el valor guardado. Vacío = mantener el actual."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reautenticar el monitor",
+        "description": "El monitor ha rechazado la contraseña del equipo.",
+        "data": {
+          "device_password": "Contraseña del equipo (8 mayúsculas)"
+        }
+      },
+      "reauth_confirm_cloud": {
+        "title": "Reautenticar la cuenta",
+        "description": "La sesión cloud ha caducado o ha sido revocada.",
+        "data": {
+          "account_password": "Contraseña de la cuenta"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "No se pudo conectar con el monitor. Abre G2Call+ → Información del dispositivo y vuelve a intentarlo.",
+      "invalid_auth": "Credenciales de la cuenta incorrectas.",
+      "invalid_device_auth": "Contraseña del equipo incorrecta.",
+      "unknown": "Error inesperado."
+    },
+    "abort": {
+      "already_configured": "Este equipo ya está configurado.",
+      "reauth_successful": "Reautenticación correcta.",
+      "reconfigure_successful": "Reconfiguración correcta."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opciones de Golmar G2Call+",
+        "data": {
+          "enable_principal": "Habilitar Puerta principal (door 9, lock 1)",
+          "enable_portal": "Habilitar Portal (door 1, lock 1)",
+          "unlock_code": "Código de apertura (vía local)",
+          "verify_tls": "Verificar certificado TLS",
+          "device_password": "Contraseña del equipo (8 mayúsculas)"
+        },
+        "description": "Equipo {device_uid} en {host}. Código de apertura: {code_status}. Contraseña del equipo: {device_status}. Deja vacíos los campos sensibles para mantener el valor actual.",
+        "data_description": {
+          "unlock_code": "Se muestra el valor guardado. Vacío = mantener el actual.",
+          "device_password": "Se muestra el valor guardado. Vacía = mantener la actual."
+        }
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "unlock_principal": {
+        "name": "Puerta principal"
+      },
+      "unlock_portal": {
+        "name": "Portal"
+      }
+    },
+    "binary_sensor": {
+      "online": {
+        "name": "Conectividad"
+      }
+    },
+    "sensor": {
+      "model": {
+        "name": "Modelo"
+      },
+      "firmware": {
+        "name": "Firmware"
+      }
+    }
+  }
+}
