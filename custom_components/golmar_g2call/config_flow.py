@@ -20,6 +20,7 @@ from .const import (
     CONF_DEVICE_UID,
     CONF_DOORS,
     CONF_ENABLE_PORTAL,
+    CONF_EVENT_POLL_INTERVAL,
     CONF_HOST,
     CONF_PORT,
     CONF_REGION_ID,
@@ -29,8 +30,11 @@ from .const import (
     DEFAULT_CGI_PORT,
     DEFAULT_CGI_SCHEME,
     DEFAULT_DOORS,
+    DEFAULT_EVENT_POLL_INTERVAL,
     DEFAULT_REGION_ID,
     DOMAIN,
+    MAX_EVENT_POLL_INTERVAL,
+    MIN_EVENT_POLL_INTERVAL,
 )
 from .oauth import CloudAuthError, CloudUnavailable, GolmarOAuth, hash_password
 from .origins import pop_reauth_origin
@@ -427,6 +431,9 @@ class GolmarOptionsFlow(OptionsFlow):
             options[CONF_VERIFY_TLS] = bool(user_input.get(CONF_VERIFY_TLS, False))
             if user_input.get(CONF_DEVICE_PASSWORD):
                 options[CONF_DEVICE_PASSWORD] = user_input[CONF_DEVICE_PASSWORD]
+            options[CONF_EVENT_POLL_INTERVAL] = int(
+                user_input.get(CONF_EVENT_POLL_INTERVAL, DEFAULT_EVENT_POLL_INTERVAL)
+            )
             return self.async_create_entry(data=options)
 
         code_status = (
@@ -451,6 +458,20 @@ class GolmarOptionsFlow(OptionsFlow):
                             "enabled", False
                         ),
                     ): bool,
+                    vol.Required(
+                        CONF_EVENT_POLL_INTERVAL,
+                        default=current.get(
+                            CONF_EVENT_POLL_INTERVAL, DEFAULT_EVENT_POLL_INTERVAL
+                        ),
+                    ): selector.NumberSelector(
+                        selector.NumberSelectorConfig(
+                            min=MIN_EVENT_POLL_INTERVAL,
+                            max=MAX_EVENT_POLL_INTERVAL,
+                            step=5,
+                            mode=selector.NumberSelectorMode.BOX,
+                            unit_of_measurement="s",
+                        )
+                    ),
                     vol.Optional(
                         CONF_UNLOCK_CODE, default=current.get(CONF_UNLOCK_CODE, "")
                     ): selector.TextSelector(PASSWORD),

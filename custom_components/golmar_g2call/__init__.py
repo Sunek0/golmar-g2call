@@ -10,6 +10,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
+from .alarm_api import GolmarAlarmClient
 from .api import GolmarLocalClient
 from .cloud_api import GolmarCloudClient
 from .const import (
@@ -18,22 +19,32 @@ from .const import (
     CONF_CLIENT_ID,
     CONF_DEVICE_PASSWORD,
     CONF_DEVICE_UID,
+    CONF_EVENT_POLL_INTERVAL,
     CONF_HOST,
     CONF_PORT,
     CONF_REGION_ID,
     CONF_SCHEME,
     CONF_VERIFY_TLS,
+    DEFAULT_EVENT_POLL_INTERVAL,
     DEFAULT_REGION_ID,
 )
 from .control import UnlockGate
 from .coordinator import GolmarDataCoordinator
+from .events_coordinator import GolmarEventsCoordinator
+from .jus import GolmarJusClient
 from .oauth import CloudAuthError, CloudUnavailable, GolmarOAuth
 from .origins import set_reauth_origin
 from .runtime import GolmarRuntimeData, entry_config
 
 _LOGGER = logging.getLogger(__name__)
 
-PLATFORMS: list[Platform] = [Platform.BUTTON, Platform.BINARY_SENSOR, Platform.SENSOR]
+PLATFORMS: list[Platform] = [
+    Platform.BUTTON,
+    Platform.BINARY_SENSOR,
+    Platform.SENSOR,
+    Platform.EVENT,
+    Platform.CAMERA,
+]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -89,12 +100,43 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         else None
     )
 
+    # Eventos: JUS duplex + servidor de alarmas + ciclo propio (30 s por defecto).
+    jus = GolmarJusClient(
+        session,
+        account=config[CONF_ACCOUNT],
+        client_id=config[CONF_CLIENT_ID],
+        password_hash=config[CONF_ACCOUNT_PASSWORD],
+        verify_tls=config[CONF_VERIFY_TLS],
+    )
+    alarm = GolmarAlarmClient(
+        session,
+        jus=jus,
+        client_id=config[CONF_CLIENT_ID],
+        verify_tls=config[CONF_VERIFY_TLS],
+    )
+    events = GolmarEventsCoordinator(
+        hass,
+        config_entry=entry,
+        alarm=alarm,
+        poll_interval=config.get(CONF_EVENT_POLL_INTERVAL, DEFAULT_EVENT_POLL_INTERVAL),
+    )
+
     entry.runtime_data = GolmarRuntimeData(
-        local=local, cloud=cloud, coordinator=coordinator, config=config, gate=UnlockGate()
+        local=local,
+        cloud=cloud,
+        coordinator=coordinator,
+        config=config,
+        gate=UnlockGate(),
+        jus=jus,
+        alarm=alarm,
+        events=events,
     )
 
     # A sleeping CGI is not a setup failure by design (data=None, entities offline).
     await coordinator.async_config_entry_first_refresh()
+    # El ciclo de eventos se refresca sin bloquear el setup (seed sin disparos);
+    # un fallo de eventos no afecta a la identidad ni a la apertura.
+    await events.async_refresh()
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     entry.async_on_unload(entry.add_update_listener(_async_options_updated))

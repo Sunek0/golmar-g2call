@@ -33,6 +33,43 @@ CLOUD_OAUTH_PATH: Final = "/qvoauthv2/token"
 CLOUD_API_HOST: Final = "tdkopenapir1.qvcloud.net"
 CLOUD_SERVER_INFO_PATH: Final = "/openapi-tdk/client/user/findUserServerInfo"
 CLOUD_SYNC_PATH: Final = "/openapi-tdk/devctr/synccontrol/singledev"
+
+# --- JUS (sesión para el servidor de alarmas) --------------------------------
+CLOUD_JUS_HOST: Final = "r1-1.qvcloud.net"
+JUS_PATH_UP: Final = "/auth/user;jus_duplex=up"
+JUS_PATH_DOWN: Final = "/auth/user;jus_duplex=down"
+JUS_TIMEOUT: Final = 20.0
+# La sesión JUS observada caduca en ~25-30 min; renovar con margen.
+JUS_SESSION_TTL: Final = 20 * 60
+
+# --- Servidor de alarmas (eventos) -------------------------------------------
+ALARM_HOSTS: Final = ["r1-9.qvcloud.net:4443", "r1-2.qvcloud.net:4443"]
+ALARM_PATH: Final = "/UserAlarm"
+ALARM_TIMEOUT: Final = 20.0
+ALARM_AUTHSERVER: Final = "r1-1.qvcloud.net"
+ALARM_LOGIN_NOTIFY_LANG: Final = "Spanish"
+ALARM_LOGIN_TIMEZONE: Final = "GMT+02:00"
+# Filtro exacto que envía la UI de la app V2.9 (capturado con Frida).
+ALARM_EVENT_TYPES: Final = [19, 45, 6, 16, 34, 35, 36, 37, 63, 2, 21, 23]
+ALARM_RESULT_SESSION: Final = "1019"  # CONNECT_SERVE_FAIL -> sesión JUS caducada
+ALARM_RESULT_CONTENT_TYPE: Final = "1009"
+ALARM_RESULT_DATA: Final = "1013"
+# Mapeo de tipos del servidor a tipos de evento de HA.
+EVENT_TYPE_MAP: Final = {
+    7: "ring",
+    19: "call",
+    20: "call",
+    38: "call",
+    39: "call",
+    45: "call",
+    46: "call",
+    63: "unlock",
+}
+
+CONF_EVENT_POLL_INTERVAL: Final = "event_poll_interval"
+DEFAULT_EVENT_POLL_INTERVAL: Final = 30
+MIN_EVENT_POLL_INTERVAL: Final = 15
+MAX_EVENT_POLL_INTERVAL: Final = 120
 CLOUD_OEM_ID: Final = "G0053,A0053"
 CLOUD_APP_ID: Final = "4053"
 CLOUD_CLIENT_TYPE: Final = "0"

@@ -87,7 +87,8 @@
           "enable_portal": "Enable Portal (door 1, lock 1)",
           "unlock_code": "Unlock code (local path)",
           "verify_tls": "Verify TLS certificate",
-          "device_password": "Device password (8 uppercase letters)"
+          "device_password": "Device password (8 uppercase letters)",
+          "event_poll_interval": "Events poll interval (s)"
         },
         "description": "Device {device_uid} at {host}. Unlock code: {code_status}. Device password: {device_status}. Leave sensitive fields empty to keep the current value.",
         "data_description": {
@@ -109,6 +110,9 @@
     "binary_sensor": {
       "online": {
         "name": "Connectivity"
+      },
+      "ringing": {
+        "name": "Ringing"
       }
     },
     "sensor": {
@@ -117,6 +121,19 @@
       },
       "firmware": {
         "name": "Firmware"
+      },
+      "last_event": {
+        "name": "Last event"
+      }
+    },
+    "event": {
+      "doorbell": {
+        "name": "Doorbell"
+      }
+    },
+    "camera": {
+      "last_snapshot": {
+        "name": "Last snapshot"
       }
     }
   }

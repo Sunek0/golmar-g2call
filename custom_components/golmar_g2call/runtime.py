@@ -7,10 +7,13 @@ from typing import Any
 
 from homeassistant.config_entries import ConfigEntry
 
+from .alarm_api import GolmarAlarmClient
 from .api import GolmarLocalClient
 from .cloud_api import GolmarCloudClient
 from .control import UnlockGate
 from .coordinator import GolmarDataCoordinator
+from .events_coordinator import GolmarEventsCoordinator
+from .jus import GolmarJusClient
 
 
 @dataclass
@@ -22,6 +25,9 @@ class GolmarRuntimeData:
     coordinator: GolmarDataCoordinator
     config: dict[str, Any]
     gate: UnlockGate
+    jus: GolmarJusClient
+    alarm: GolmarAlarmClient
+    events: GolmarEventsCoordinator
 
 
 def entry_config(entry: ConfigEntry) -> dict[str, Any]:

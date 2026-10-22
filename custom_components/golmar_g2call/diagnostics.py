@@ -59,6 +59,26 @@ async def async_get_config_entry_diagnostics(
                 ),
             },
         },
+        "events": {
+            "jus_session_active": bool(runtime and runtime.jus.session_id)
+            if runtime
+            else None,
+            "last_update_success": runtime.events.last_update_success
+            if runtime
+            else None,
+            "seen_alarm_ids": runtime.events.seen_count if runtime else None,
+            "last_event": (
+                {
+                    "alarm_id": runtime.events.data.last_event.alarmid,
+                    "type": runtime.events.data.last_event.event_type,
+                    "time": runtime.events.data.last_event.time,
+                    "channel": runtime.events.data.last_event.channel,
+                    "has_snapshot": bool(runtime.events.data.last_event.snapshot_url),
+                }
+                if runtime and runtime.events.data and runtime.events.data.last_event
+                else None
+            ),
+        },
         "tokens": {
             "access_token": REDACTED if tokens and tokens.access_token else None,
             "refresh_token": REDACTED if tokens and tokens.refresh_token else None,

@@ -87,7 +87,8 @@
           "enable_portal": "Habilitar Portal (door 1, lock 1)",
           "unlock_code": "Código de apertura (vía local)",
           "verify_tls": "Verificar certificado TLS",
-          "device_password": "Contraseña del equipo (8 mayúsculas)"
+          "device_password": "Contraseña del equipo (8 mayúsculas)",
+          "event_poll_interval": "Intervalo de eventos (s)"
         },
         "description": "Equipo {device_uid} en {host}. Código de apertura: {code_status}. Contraseña del equipo: {device_status}. Deja vacíos los campos sensibles para mantener el valor actual.",
         "data_description": {
@@ -109,6 +110,9 @@
     "binary_sensor": {
       "online": {
         "name": "Conectividad"
+      },
+      "ringing": {
+        "name": "Timbre activo"
       }
     },
     "sensor": {
@@ -117,6 +121,19 @@
       },
       "firmware": {
         "name": "Firmware"
+      },
+      "last_event": {
+        "name": "Último evento"
+      }
+    },
+    "event": {
+      "doorbell": {
+        "name": "Timbre"
+      }
+    },
+    "camera": {
+      "last_snapshot": {
+        "name": "Última captura"
       }
     }
   }

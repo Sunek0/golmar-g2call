@@ -1,8 +1,12 @@
 {
   "entity": {
     "button": {
-      "unlock_principal": {"default": "mdi:door-open"},
-      "unlock_portal": {"default": "mdi:door"}
+      "unlock_principal": {
+        "default": "mdi:door-open"
+      },
+      "unlock_portal": {
+        "default": "mdi:door"
+      }
     },
     "binary_sensor": {
       "online": {
@@ -11,11 +15,35 @@
           "on": "mdi:lan-connect",
           "off": "mdi:lan-disconnect"
         }
+      },
+      "ringing": {
+        "default": "mdi:bell-ring",
+        "state": {
+          "on": "mdi:bell-ring",
+          "off": "mdi:bell-off"
+        }
       }
     },
     "sensor": {
-      "model": {"default": "mdi:monitor"},
-      "firmware": {"default": "mdi:chip"}
+      "model": {
+        "default": "mdi:monitor"
+      },
+      "firmware": {
+        "default": "mdi:chip"
+      },
+      "last_event": {
+        "default": "mdi:history"
+      }
+    },
+    "event": {
+      "doorbell": {
+        "default": "mdi:bell"
+      }
+    },
+    "camera": {
+      "last_snapshot": {
+        "default": "mdi:image"
+      }
     }
   }
 }
