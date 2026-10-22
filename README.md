@@ -8,11 +8,10 @@ Integración personalizada de Home Assistant para el **porterillo Golmar ART4HW/
 
 | Función | Estado |
 |---|---|
-| Abrir **Puerta principal** (door 9, lock 1) por **cloud** | ✅ validado con apertura física real |
-| Abrir **Portal** (door 1, lock 1) | ✅ validado; la entidad se crea deshabilitada por defecto |
-| Abrir por **CGI local** como respaldo (sin Internet, monitor despierto) | ✅ validado con el equipo real |
+| Abrir por **cloud** | ✅ |
+| Abrir por **CGI local** como respaldo (sin Internet, monitor despierto) | ✅ |
 | Estado online, modelo y firmware | ✅ |
-| Timbre, eventos y cámara | ⏳ pendiente (requiere la sesión JUS del servidor de alarmas) |
+| Timbre, eventos y cámara | ❌ |
 | Vídeo en vivo | ❌ no soportado (protocolo QUII propietario) |
 
 ## Requisitos
