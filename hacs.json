@@ -1,5 +1,7 @@
 {
   "name": "Golmar G2Call+",
-  "homeassistant": "2026.10.0",
-  "country": ["ES"]
+  "homeassistant": "2026.3.0",
+  "country": [
+    "ES"
+  ]
 }

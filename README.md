@@ -17,7 +17,7 @@ Integración personalizada de Home Assistant para el **porterillo Golmar ART4HW/
 
 ## Requisitos
 
-- Home Assistant **2026.10.0** o superior.
+- Home Assistant **2026.3.0** o superior.
 - Cuenta de la app **G2Call+** (email o teléfono).
 - **Etiqueta/QR del monitor**: UID de 12 caracteres y contraseña del equipo de 8 mayúsculas.
 - Código de apertura: el que hayas fijado en la app (**Seguridad → Cambiar contraseña**). Solo se usa en la vía local.
